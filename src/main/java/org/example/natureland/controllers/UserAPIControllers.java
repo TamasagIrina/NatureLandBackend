@@ -48,8 +48,9 @@ public class UserAPIControllers {
     public ResponseEntity<String> add(@RequestBody User user) {
         user.setId(0);
         user.setRole(UserRole.CUSTOMER);
-        if(verify(user.getEmail(), user.getPassword()).equals("logged in")) {
-            return ResponseEntity.badRequest().body("User email exist");
+        System.out.println(userRepo.findUserByEmail(user.getEmail())!=null);
+        if(userRepo.findUserByEmail(user.getEmail())!=null) {
+            return ResponseEntity.ok().body("User email exist");
         }
         userRepo.save(user);
         return ResponseEntity.ok().body("User added");

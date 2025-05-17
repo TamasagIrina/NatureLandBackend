@@ -1,7 +1,5 @@
 package org.example.natureland.entety;
 
-import org.example.natureland.entety.Cart;
-
 public class CartProductDTO {
     private int cartId;
     private int amount;

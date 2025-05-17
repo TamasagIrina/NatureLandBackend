@@ -16,7 +16,7 @@ public class Cart {
     private Products product;
 
     @Column(name = "personid")
-    private int personID;
+    private int personid;
     @Column(name = "amount")
     private int amount;
 
@@ -31,8 +31,8 @@ public class Cart {
         return this.product;
     }
 
-    public int getPersonID() {
-        return this.personID;
+    public int getPersonid() {
+        return this.personid;
     }
 
     public int getAmount() {
@@ -47,8 +47,8 @@ public class Cart {
         this.product = product;
     }
 
-    public void setPersonID(int personID) {
-        this.personID = personID;
+    public void setPersonid(int personID) {
+        this.personid = personID;
     }
 
     public void setAmount(int amount) {
@@ -64,7 +64,7 @@ public class Cart {
         final Object this$product = this.getProduct();
         final Object other$product = other.getProduct();
         if (this$product == null ? other$product != null : !this$product.equals(other$product)) return false;
-        if (this.getPersonID() != other.getPersonID()) return false;
+        if (this.getPersonid() != other.getPersonid()) return false;
         if (this.getAmount() != other.getAmount()) return false;
         return true;
     }
@@ -79,12 +79,12 @@ public class Cart {
         result = result * PRIME + this.getId();
         final Object $product = this.getProduct();
         result = result * PRIME + ($product == null ? 43 : $product.hashCode());
-        result = result * PRIME + this.getPersonID();
+        result = result * PRIME + this.getPersonid();
         result = result * PRIME + this.getAmount();
         return result;
     }
 
     public String toString() {
-        return "Cart(id=" + this.getId() + ", product=" + this.getProduct() + ", personID=" + this.getPersonID() + ", amount=" + this.getAmount() + ")";
+        return "Cart(id=" + this.getId() + ", product=" + this.getProduct() + ", personID=" + this.getPersonid() + ", amount=" + this.getAmount() + ")";
     }
 }

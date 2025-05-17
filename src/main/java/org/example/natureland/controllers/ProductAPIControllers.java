@@ -1,8 +1,8 @@
 package org.example.natureland.controllers;
 
 import org.example.natureland.entety.Products;
-import org.example.natureland.entety.User;
 import org.example.natureland.repo.ProductRepo;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,15 +18,23 @@ public class ProductAPIControllers {
         this.productRepo = productRepo;
     }
 
+    @GetMapping("/getProductId/{productName}")
+    public ResponseEntity<Integer> getProductID(@PathVariable("productName") String productName) {
+
+        if(productRepo.findByProductName(productName).isPresent()){
+            int id = productRepo.findByProductName(productName).get().getId();
+            return ResponseEntity.status(HttpStatus.OK).body(id);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(0);
+    }
+
     @PostMapping("/addProduct")
     public ResponseEntity<String> add(@RequestBody Products product) {
         product.setId(0);
-        if(productRepo.existsProductsByProductName(product.getProductName())) {
-            return ResponseEntity.badRequest().body("Product exist. ");
+        if(productRepo.existsProductsByProductName(product.getProductName()) && productRepo.findByProductDescription(product.getProductDescription())==null) {
+            return ResponseEntity.ok().body("Product exist. ");
         }
-        if(product.getProductName().isEmpty()||product.getProductImg().isEmpty()|| product.getProductPrice() == null) {
-            return ResponseEntity.badRequest().body("Insert product!!! ");
-        }
+
         productRepo.save(product);
         return ResponseEntity.ok().body("Product added");
     }

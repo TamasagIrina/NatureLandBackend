@@ -8,13 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins="http://localhost:4200")
+
 @RestController
+@CrossOrigin(origins="http://localhost:4200")
 public class CartAPIControllers {
 
     CartRepo cartRepo;
@@ -25,8 +25,8 @@ public class CartAPIControllers {
     @PostMapping("/addToCart")
     public ResponseEntity<String> addToCard(@RequestBody Cart cart) {
         cart.setId(0);
-        if (getById(cart.getProduct().getId(),cart.getPersonID())) {
-            return ResponseEntity.badRequest().body("Cart already exists.");
+        if (getById(cart.getProduct().getId(),cart.getPersonid())) {
+            return ResponseEntity.ok().body("Cart already exists.");
         }
 
         cartRepo.save(cart);
@@ -35,7 +35,7 @@ public class CartAPIControllers {
 
     @GetMapping("/getByIds/{idProduct}/{idPerson}")
     public boolean getById(@PathVariable int idProduct, @PathVariable int idPerson) {
-        List<Cart> carts= cartRepo.findAllByPersonID(idPerson);
+        List<Cart> carts= cartRepo.findAllByPersonid(idPerson);
         for (Cart cart : carts) {
             if (cart.getProduct().getId() == idProduct) {
                 return true;
@@ -52,7 +52,7 @@ public class CartAPIControllers {
 
     @GetMapping("/joined/{id}")
     public List<CartProductDTO> getCartWithProducts(@PathVariable int id) {
-        return cartRepo.findAllByPersonID(id).stream()
+        return cartRepo.findAllByPersonid(id).stream()
                 .map(CartProductDTO::new)
                 .collect(Collectors.toList());
     }
@@ -68,6 +68,18 @@ public class CartAPIControllers {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart item not found");
         }
+    }
+
+    @DeleteMapping("/delete/{personId}/{productid}")
+  public ResponseEntity<String> deleteProduct(@PathVariable int personId, @PathVariable int productid) {
+        List<Cart> optionalCart = cartRepo.findAllByPersonid(personId);
+        for (Cart cart : optionalCart) {
+            if (cart.getProduct().getId() == productid) {
+                cartRepo.delete(cart);
+                return ResponseEntity.ok("Deleted");
+            }
+        }
+        return ResponseEntity.ok("product not found");
     }
 
 }

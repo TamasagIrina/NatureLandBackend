@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface CartRepo extends JpaRepository<Cart, Integer> {
-    List<Cart> findAllByPersonID(int personID);
+    List<Cart> findAllByPersonid(int personID);
 
     boolean findAllById(int id);
 }
