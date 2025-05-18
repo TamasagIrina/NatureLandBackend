@@ -82,4 +82,14 @@ public class CartAPIControllers {
         return ResponseEntity.ok("product not found");
     }
 
+    @DeleteMapping("/deleteALL/{personId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int personId) {
+        List<Cart> optionalCart = cartRepo.findAllByPersonid(personId);
+        if (optionalCart.isEmpty()) {
+            return ResponseEntity.ok().body("Cart items not found");
+        }
+        cartRepo.deleteAll(optionalCart);
+        return ResponseEntity.ok("Cart deleted");
+    }
+
 }
