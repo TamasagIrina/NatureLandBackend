@@ -56,6 +56,7 @@ public class CartAPIControllers {
                 .map(CartProductDTO::new)
                 .collect(Collectors.toList());
     }
+
     @PutMapping("/{cartItemId}/{updateAmount}")
     public ResponseEntity<String> updateAmount(@PathVariable int cartItemId,@PathVariable int updateAmount) {
         Optional<Cart> optionalCart = cartRepo.findById(cartItemId);

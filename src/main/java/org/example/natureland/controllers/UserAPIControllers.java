@@ -35,6 +35,17 @@ public class UserAPIControllers {
         return ResponseEntity.ok().body(id);
     }
 
+
+
+    @GetMapping("/getName/{email}")
+    public ResponseEntity<String> getName(@PathVariable String email) {
+        if(userRepo.findUserByEmail(email)==null) {
+            return ResponseEntity.ok().body("User not found, go to signup");
+        }
+        String name  = userRepo.findUserByEmail(email).getFirst_name();
+        return ResponseEntity.ok().body(name);
+    }
+
     @GetMapping("/getRole/{email}")
     public ResponseEntity<String> getRole(@PathVariable String email) {
         if(userRepo.findUserByEmail(email)==null) {
