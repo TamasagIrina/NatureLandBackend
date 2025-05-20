@@ -43,7 +43,7 @@ public class OrdersAPIControllers {
 
 
     @PutMapping("/depot/{id}")
-    public ResponseEntity<String> updateAmount(@PathVariable int id) {
+    public ResponseEntity<String> deport(@PathVariable int id) {
        Optional<Orders> ordersOptional = ordersRepo.findById(id);
        if (ordersOptional.isPresent()) {
            Orders order = ordersOptional.get();
