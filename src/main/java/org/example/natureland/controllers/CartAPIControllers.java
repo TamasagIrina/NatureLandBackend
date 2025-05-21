@@ -26,11 +26,11 @@ public class CartAPIControllers {
     public ResponseEntity<String> addToCard(@RequestBody Cart cart) {
         cart.setId(0);
         if (getById(cart.getProduct().getId(),cart.getPersonid())) {
-            return ResponseEntity.ok().body("Cart already exists.");
+            return ResponseEntity.ok().body("Product already exists in your cart.");
         }
 
         cartRepo.save(cart);
-        return ResponseEntity.ok("added");
+        return ResponseEntity.ok("Product added in your cart.");
     }
 
     @GetMapping("/getByIds/{idProduct}/{idPerson}")

@@ -1,6 +1,7 @@
 package org.example.natureland.entety;
 
 import jakarta.persistence.*;
+import org.example.natureland.enums.Stoc;
 
 @Entity
 @Table(name = "products")
@@ -11,20 +12,30 @@ public class Products {
     private int id;
 
     @Column(name = "product_name")
-    String productName;
+    private String productName;
 
     @Column(name = "product_brand")
-    String productBrand;
+    private String productBrand;
 
     @Column(name = "product_description")
-    String productDescription;
+    private String productDescription;
 
     @Column(name = "product_price")
-    Double productPrice;
+    private Double productPrice;
 
     @Column(name = "product_img")
-    String productImg;
+    private String productImg;
 
+    @Column(name = "stoc")
+    private Stoc stoc;
+
+    public Stoc getStoc() {
+        return stoc;
+    }
+
+    public void setStoc(Stoc stoc) {
+        this.stoc = stoc;
+    }
 
     public Products() {
     }
