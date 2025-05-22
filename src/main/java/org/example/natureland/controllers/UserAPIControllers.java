@@ -4,6 +4,7 @@ import org.example.natureland.entety.User;
 import org.example.natureland.enums.UserRole;
 import org.example.natureland.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,14 @@ public class UserAPIControllers {
         return ResponseEntity.ok().body(id);
     }
 
+    @GetMapping("/getUser/{email}")
+    public ResponseEntity<User> getUser(@PathVariable String email) {
+        if(userRepo.findUserByEmail(email)==null) {
+            return ResponseEntity.ok().body(null);
+        }
+        User user = userRepo.findUserByEmail(email);
+        return ResponseEntity.ok().body(user);
+    }
 
 
     @GetMapping("/getName/{email}")
@@ -67,5 +76,26 @@ public class UserAPIControllers {
         return ResponseEntity.ok().body("User added");
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User updatedUser) {
+        if (!userRepo.existsById(id)) {
+            return ResponseEntity.ok().body("User not found");
+        }
+        if(userRepo.findUserByEmail(updatedUser.getEmail()).getId()==id) {
+            User existingUser = userRepo.findById(id).get();
+            existingUser.setFirst_name(updatedUser.getFirst_name());
+            existingUser.setLast_name(updatedUser.getLast_name());
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setPassword(updatedUser.getPassword());
+
+            userRepo.save(existingUser);
+            return ResponseEntity.ok("User updated successfully");
+        }
+
+        return ResponseEntity.ok().body("Email already exist");
+
+
+
+    }
 
 }

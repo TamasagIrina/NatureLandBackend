@@ -38,6 +38,7 @@ public class ProductAPIControllers {
     @PostMapping("/addProduct")
     public ResponseEntity<String> add(@RequestBody Products product) {
         product.setId(0);
+        product.setStoc(Stoc.IN_STOC);
         if(productRepo.existsProductsByProductName(product.getProductName()) && productRepo.findByProductDescription(product.getProductDescription())==null) {
             return ResponseEntity.ok().body("Product exist. ");
         }
